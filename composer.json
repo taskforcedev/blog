@@ -1,0 +1,22 @@
+{
+    "name": "taskforcedev/blog",
+    "description": "Laravel Blog module, provides controller, routes and publishable views.",
+    "authors": [
+        {
+            "name": "taskforcedev",
+            "email": "taskforce2eu@gmail.com"
+        }
+    ],
+    "keywords": ["blog", "routes", "views", "laravel"],
+    "require": {
+        "php": ">=5.5.0",
+        "laravel/framework": "5.*",
+        "taskforcedev/laravel-support": "1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Taskforcedev\\Blog\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
