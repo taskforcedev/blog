@@ -1,5 +1,6 @@
 <?php namespace Taskforcedev\Blog\Helpers;
 
+use Illuminate\Database\Schema\Blueprint;
 use \Schema;
 
 class Installation
