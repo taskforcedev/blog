@@ -1,7 +1,8 @@
 <?php namespace Taskforcedev\Blog\Helpers;
 
-use Illuminate\Database\Schema\Blueprint;
 use \Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Taskforcedev\Blog\Models\Status;
 
 class Installation
 {
@@ -11,7 +12,11 @@ class Installation
             self::migrate();
         }
 
-        return self::hasMigrated();
+        if (!self::hasSeeded()) {
+            self::seed();
+        }
+
+        return (self::hasMigrated() && self::hasSeeded());
     }
 
     public static function hasMigrated()
@@ -60,6 +65,28 @@ class Installation
             });
         }
 
+        return true;
+    }
+
+    private static function hasSeeded()
+    {
+        $statuses = [ 'draft', 'published', 'hidden' ];
+        foreach ($statuses as $status) {
+            if (!Status::exists($status)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static function seed()
+    {
+        $statuses = [ 'draft', 'published', 'hidden' ];
+        foreach ($statuses as $status) {
+            if (!Status::exists($status)) {
+                Status::create(['name' => $status]);
+            }
+        }
         return true;
     }
 }

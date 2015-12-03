@@ -10,6 +10,17 @@ class Status extends Model
 
     protected $fillable = [ 'name' ];
 
+
+    public static function exists($status)
+    {
+        try {
+            $status = Status::where('name', $status)->firstOrFail();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
     public static function getStatusByName($status)
     {
         try {
