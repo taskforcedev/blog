@@ -5,11 +5,17 @@ use Taskforcedev\Blog\Models\Post;
 use Taskforcedev\Blog\Models\Status;
 use Taskforcedev\Blog\Helpers\CSS\Bootstrap4;
 //use Taskforcedev\Blog\Helpers\CSS\Bootstrap3;
+use Taskforcedev\Blog\Helpers\Installation;
 use Taskforcedev\Blog\Helpers\CSS\Foundation5;
 use Taskforcedev\LaravelSupport\Http\Controllers\Controller;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        Installation::checkOrRunMigrations();
+    }
+
     /**
      * Blog index.
      * @return mixed
