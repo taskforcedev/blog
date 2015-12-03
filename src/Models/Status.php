@@ -13,7 +13,7 @@ class Status extends Model
     public static function getStatusByName($status)
     {
         try {
-            $status = Status::where('name', $status);
+            $status = Status::where('name', $status)->firstOrFail();
             return $status;
         } catch (Exception $e) {
             return null;
@@ -23,7 +23,7 @@ class Status extends Model
     public static function getStatusById($id)
     {
         try {
-            $status = Status::where('id', $id);
+            $status = Status::where('id', $id)->firstOrFail();
             return $status;
         } catch (Exception $e) {
             return null;

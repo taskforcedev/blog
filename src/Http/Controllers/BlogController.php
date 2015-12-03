@@ -47,7 +47,7 @@ class BlogController extends Controller
         $data = $this->buildBlogData();
 
         try {
-            $data['post'] = Post::where('id', $id);
+            $data['post'] = Post::where('id', $id)->firstOrFail();
             return view('taskforce-blog::post', $data);
         } catch (Exception $e) {
             return view('taskforce-blog::404', $data);
