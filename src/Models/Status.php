@@ -10,6 +10,8 @@ class Status extends Model
 
     protected $fillable = [ 'name' ];
 
+    protected $timestamps = false;
+
 
     public static function exists($status)
     {
