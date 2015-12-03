@@ -5,7 +5,7 @@ use Taskforcedev\Blog\Models\Post;
 use Taskforcedev\Blog\Models\Status;
 use Taskforcedev\Blog\Helpers\CSS\Bootstrap4;
 //use Taskforcedev\Blog\Helpers\CSS\Bootstrap3;
-//use Taskforcedev\Blog\Helpers\CSS\Foundation5;
+use Taskforcedev\Blog\Helpers\CSS\Foundation5;
 use Taskforcedev\LaravelSupport\Http\Controllers\Controller;
 
 class BlogController extends Controller
@@ -70,7 +70,7 @@ class BlogController extends Controller
      */
     private function getCssClasses()
     {
-        $framework = config('taskforce-blog.framework');
+        $framework = $this->getFramework();
         $postLayout = $this->getPostLayout();
 
         switch ($framework)
@@ -82,11 +82,8 @@ class BlogController extends Controller
                     'featured-image' => 'post-image',
                 ];
             case 'bootstrap-4':
-                return [
-                    'post'           => 'post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
+                $helper = new Bootstrap4($postLayout);
+                return $helper->getBlogClasses();
             case 'foundation-5':
                 return [
                     'post'           => 'post',
@@ -102,6 +99,10 @@ class BlogController extends Controller
         }
     }
 
+    /**
+     * Get the post-layout chosen in config or default in case of error.
+     * @return string
+     */
     private function getPostLayout()
     {
         try {
@@ -113,5 +114,22 @@ class BlogController extends Controller
             return 'list';
         }
         return 'list';
+    }
+
+    /**
+     * Get the framework chosen in config or default in case of error.
+     * @return string
+     */
+    private function getFramework()
+    {
+        try {
+            $config = config('taskforce-blog.framework');
+            if (isset($config)) {
+                return $config;
+            }
+        } catch (Exception $e) {
+            return 'bootstrap-4';
+        }
+        return 'bootstrap-4';
     }
 }

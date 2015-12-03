@@ -1,11 +1,11 @@
 <?php namespace Taskforcedev\Blog\Helpers\CSS;
 
-class Bootstrap4 implements CssInterface
+class Foundation5 implements CssInterface
 {
     public $postLayout;
 
     /**
-     * Bootstrap4 constructor.
+     * Foundation 5 constructor.
      *
      * @param $postLayout
      */
