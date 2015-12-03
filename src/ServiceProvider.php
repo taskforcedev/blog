@@ -25,9 +25,10 @@ class ServiceProvider extends IlluminateServiceProvider
 
     private function config()
     {
+        $tag = 'taskforce-blog';
         $this->publishes([
             __DIR__.'/config/taskforce-blog.php' => config_path('taskforce-blog.php'),
-        ], 'blog-config');
+        ], $tag);
 
         $this->mergeConfigFrom(
             __DIR__.'/config/taskforce-blog.php',
