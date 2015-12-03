@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     /*
     | -------------
     | Blog Location
@@ -29,4 +29,4 @@ return array(
 
     'framework' => 'bootstrap-4',
 
-);
+];
