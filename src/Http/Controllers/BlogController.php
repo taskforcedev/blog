@@ -55,18 +55,31 @@ class BlogController extends Controller
         }
     }
 
+    /**
+     * Creates an RSS feed of the most recent n posts.
+     * @return mixed
+     */
     public function blogRSS()
     {
         $rss = new RSS();
-        $this->renderFeed($rss);
+        return $this->renderFeed($rss);
     }
 
+    /**
+     * Creates an Atom feed of the most recent n posts.
+     * @return mixed
+     */
     public function blogAtom()
     {
         $atom = new Atom();
-        $this->renderFeed($atom);
+        return $this->renderFeed($atom);
     }
 
+    /**
+     * Provides shared code between Atom and RSS rendering.
+     * @param object $feed The feed class to be used in output.
+     * @return mixed
+     */
     private function renderFeed($feed)
     {
         $options = [
