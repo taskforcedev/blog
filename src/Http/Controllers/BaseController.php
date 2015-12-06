@@ -24,6 +24,8 @@ class BaseController extends Controller
     /**
      * Get the CSS classes to be used by the blog views.
      *
+     * @param bool|false $includePostLayout
+     *
      * @return array
      */
     protected function getViewFolder($includePostLayout = false)
@@ -52,7 +54,7 @@ class BaseController extends Controller
             $viewFolder = $viewFolder . '.' . $postLayout;
         }
 
-        $viewFolder;
+        return $viewFolder;
     }
 
     /**
