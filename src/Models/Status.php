@@ -4,6 +4,10 @@ use \Exception;
 use \Validator;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Status
+ * @package Taskforcedev\Blog\Models
+ */
 class Status extends Model
 {
     protected $table = 'post_status';
@@ -12,7 +16,11 @@ class Status extends Model
 
     public $timestamps = false;
 
-
+    /**
+     * Check if a given status (name) exists.
+     * @param $status
+     * @return bool
+     */
     public static function exists($status)
     {
         try {
@@ -23,6 +31,11 @@ class Status extends Model
         }
     }
 
+    /**
+     * Get a status by name.
+     * @param $status
+     * @return null
+     */
     public static function getStatusByName($status)
     {
         try {
@@ -33,6 +46,11 @@ class Status extends Model
         }
     }
 
+    /**
+     * Get a status by id.
+     * @param $id
+     * @return null
+     */
     public static function getStatusById($id)
     {
         try {
