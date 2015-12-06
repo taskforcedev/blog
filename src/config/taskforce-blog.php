@@ -24,7 +24,7 @@ return [
     * "bootstrap-3", "bootstrap-4", "foundation-6", "none", null
     */
 
-    "framework" => "foundation-6",
+    "framework" => "bootstrap-4",
 
     /*
      * Blog Post Layout
