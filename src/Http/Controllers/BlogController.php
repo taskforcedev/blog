@@ -53,8 +53,12 @@ class BlogController extends Controller
         }
     }
 
-    public function blogRSS($options = ['items' => 10], Request $request)
+    public function blogRSS(Request $request)
     {
+        $options = [
+            'items' => 10
+        ];
+
         $link = $request->url();
         $title = config('taskforce-blog.feeds.title');
         $description = config('taskforce-blog.feeds.description');
@@ -67,7 +71,7 @@ class BlogController extends Controller
                 <link>{$link}</link>";
 
         try {
-            $posts = Post::published()->get();
+            $posts = Post::published()->latest($options['items'])->get();
             $data['posts'] = $posts;
         } catch (Exception $e) {}
 
