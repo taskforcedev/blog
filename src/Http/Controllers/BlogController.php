@@ -19,7 +19,7 @@ class BlogController extends BaseController
         try {
             $posts = Post::published()->get();
             $data['posts'] = $posts;
-            return view('taskforce-blog::index', $data);
+            return view($this->getViewFolder() . 'index', $data);
         } catch (Exception $e) {
             $data['error'] = $e->getMessage(); // TODO: implement logic to only show this to admins.
             return view('taskforce-blog::error', $data);
