@@ -22,7 +22,9 @@
         @endforeach
     @else
         <div class="row">
-            <p>There are currently no posts to view.</p>
+            <div class="medium-12 columns">
+                <p>There are currently no posts to view.</p>
+            </div>
         </div>
     @endif
 @endsection
