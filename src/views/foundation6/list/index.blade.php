@@ -1,10 +1,10 @@
 @extends($layout)
 
 @section('content')
-    @if(isset($posts) && count($posts) > 0)
-        @foreach($posts as $post)
-            <div class="row">
-                <div class="medium-12 columns">
+    <div class="row">
+        <div class="medium-12 columns">
+            @if(isset($posts) && count($posts) > 0)
+                @foreach($posts as $post)
                     <div class="blog-post">
                         <div class="blog-post">
                             <h1>{{ $post->title }} <small>- {{ $post->created_at }}</small></h1>
@@ -17,14 +17,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        @endforeach
-    @else
-        <div class="row">
-            <div class="medium-12 columns">
+                @endforeach
+            @else
                 <p>There are currently no posts to view.</p>
-            </div>
+            @endif
         </div>
-    @endif
+    </div>
 @endsection
