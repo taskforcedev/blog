@@ -19,7 +19,7 @@ class BlogController extends BaseController
         try {
             $posts = Post::published()->get();
             $data['posts'] = $posts;
-            return view($this->getViewFolder(true) . 'index', $data);
+            return view($this->getViewFolder(true) . '.index', $data);
         } catch (Exception $e) {
             $data['error'] = $e->getMessage(); // TODO: implement logic to only show this to admins.
             return view('taskforce-blog::error', $data);
@@ -39,7 +39,7 @@ class BlogController extends BaseController
 
         try {
             $data['post'] = Post::where('id', $id)->firstOrFail();
-            return view($this->getViewFolder() . 'post', $data);
+            return view($this->getViewFolder() . '.post', $data);
         } catch (Exception $e) {
             return view('taskforce-blog::404', $data);
         }
