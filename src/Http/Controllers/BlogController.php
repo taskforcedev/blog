@@ -102,21 +102,4 @@ class BlogController extends BaseController
     {
         return $this->buildData();
     }
-
-    /**
-     * Get the framework chosen in config or default in case of error.
-     * @return string
-     */
-    private function getFramework()
-    {
-        try {
-            $config = config('taskforce-blog.framework');
-            if (isset($config)) {
-                return $config;
-            }
-        } catch (Exception $e) {
-            return 'bootstrap-4';
-        }
-        return 'bootstrap-4';
-    }
 }
