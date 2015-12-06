@@ -61,16 +61,14 @@ class BlogController extends Controller
      */
     private function buildBlogData()
     {
-        $data                = $this->buildData();
-        $data['classes']     = $this->getCssClasses();
+        $data            = $this->buildData();
+        $data['classes'] = $this->getCssClasses();
 
         return $data;
     }
 
     /**
      * Get the CSS classes to be used by the blog views.
-     *
-     * @param string $framework Framework to retrieve classes for.
      *
      * @return array
      */
