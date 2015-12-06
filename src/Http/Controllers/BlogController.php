@@ -110,10 +110,7 @@ class BlogController extends Controller
      */
     private function buildBlogData()
     {
-        $data            = $this->buildData();
-        $data['classes'] = $this->getCssClasses();
-
-        return $data;
+        return $this->buildData();
     }
 
     /**
@@ -121,34 +118,20 @@ class BlogController extends Controller
      *
      * @return array
      */
-    private function getCssClasses()
+    private function getViewFolder()
     {
         $framework = $this->getFramework();
         $postLayout = $this->getPostLayout();
 
-        switch ($framework)
-        {
+        switch ($framework) {
             case 'bootstrap-3':
-                return [
-                    'post'           => 'post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
+                return 'bootstrap3.' . $postLayout;
             case 'bootstrap-4':
-                $helper = new Bootstrap4($postLayout);
-                return $helper->getBlogClasses();
-            case 'foundation-5':
-                return [
-                    'post'           => 'post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
+                return 'bootstrap4.' . $postLayout;
+            case 'foundation-6':
+                return 'foundation6.' . $postLayout;
             default:
-                return [
-                    'post'           => 'blog-post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
+                return 'bootstrap4.' . $postLayout;
         }
     }
 
