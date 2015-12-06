@@ -23,8 +23,6 @@ class Foundation5 implements CssInterface
             case 'list':
                 break;
             default:
-
         }
     }
-
 }

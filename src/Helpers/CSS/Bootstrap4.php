@@ -23,8 +23,6 @@ class Bootstrap4 implements CssInterface
             case 'list':
                 break;
             default:
-
         }
     }
-
 }
