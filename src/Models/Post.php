@@ -3,6 +3,7 @@
 use \Exception;
 use \Validator;
 use Illuminate\Database\Eloquent\Model;
+use Taskforcedev\LaravelSupport\Helpers\User as UserHelper;
 
 /**
  * Class Post
@@ -16,7 +17,11 @@ class Post extends Model
 
     public function author()
     {
-        // TODO: Get the user model.
+        /* Get the user model. */
+        $userHelper = new UserHelper();
+        $model = $userHelper->getUserModel();
+
+        return $this->belongsTo($model);
     }
 
     /**
