@@ -19,7 +19,7 @@ class BlogController extends BaseController
         try {
             $posts = Post::published()->get();
             $data['posts'] = $posts;
-            return view($this->getViewFolder() . 'index', $data);
+            return view($this->getViewFolder(true) . 'index', $data);
         } catch (Exception $e) {
             $data['error'] = $e->getMessage(); // TODO: implement logic to only show this to admins.
             return view('taskforce-blog::error', $data);
@@ -39,7 +39,7 @@ class BlogController extends BaseController
 
         try {
             $data['post'] = Post::where('id', $id)->firstOrFail();
-            return view('taskforce-blog::post', $data);
+            return view($this->getViewFolder() . 'post', $data);
         } catch (Exception $e) {
             return view('taskforce-blog::404', $data);
         }
@@ -101,45 +101,6 @@ class BlogController extends BaseController
     private function buildBlogData()
     {
         return $this->buildData();
-    }
-
-    /**
-     * Get the CSS classes to be used by the blog views.
-     *
-     * @return array
-     */
-    private function getViewFolder()
-    {
-        $framework = $this->getFramework();
-        $postLayout = $this->getPostLayout();
-
-        switch ($framework) {
-            case 'bootstrap-3':
-                return 'bootstrap3.' . $postLayout;
-            case 'bootstrap-4':
-                return 'bootstrap4.' . $postLayout;
-            case 'foundation-6':
-                return 'foundation6.' . $postLayout;
-            default:
-                return 'bootstrap4.' . $postLayout;
-        }
-    }
-
-    /**
-     * Get the post-layout chosen in config or default in case of error.
-     * @return string
-     */
-    private function getPostLayout()
-    {
-        try {
-            $postLayout = config('taskforce-blog.post-layout');
-            if (isset($postLayout)) {
-                return $postLayout;
-            }
-        } catch (Exception $e) {
-            return 'list';
-        }
-        return 'list';
     }
 
     /**

@@ -26,7 +26,7 @@ class BaseController extends Controller
      *
      * @return array
      */
-    private function getViewFolder()
+    protected function getViewFolder($includePostLayout = false)
     {
         $framework = $this->getFramework();
         $postLayout = $this->getPostLayout();
@@ -46,14 +46,20 @@ class BaseController extends Controller
                 break;
         }
 
-        return 'taskforce-blog::' . $viewFolder . '.' . $postLayout;
+        $viewFolder = 'taskforce-blog::' . $viewFolder;
+
+        if ($includePostLayout) {
+            $viewFolder = $viewFolder . '.' . $postLayout;
+        }
+
+        $viewFolder;
     }
 
     /**
      * Get the post-layout chosen in config or default in case of error.
      * @return string
      */
-    private function getPostLayout()
+    protected function getPostLayout()
     {
         try {
             $postLayout = config('taskforce-blog.post-layout');
@@ -70,7 +76,7 @@ class BaseController extends Controller
      * Get the framework chosen in config or default in case of error.
      * @return string
      */
-    private function getFramework()
+    protected function getFramework()
     {
         try {
             $config = config('taskforce-blog.framework');
