@@ -6,6 +6,8 @@ use Taskforcedev\Blog\Models\Post;
 use Taskforcedev\Blog\Helpers\CSS\Bootstrap4;
 //use Taskforcedev\Blog\Helpers\CSS\Bootstrap3;
 use Taskforcedev\Blog\Helpers\Installation;
+use Taskforcedev\Blog\Helpers\Syndication\Atom;
+use Taskforcedev\Blog\Helpers\Syndication\RSS;
 use Taskforcedev\Blog\Helpers\CSS\Foundation5;
 use Taskforcedev\LaravelSupport\Http\Controllers\Controller;
 
@@ -53,33 +55,39 @@ class BlogController extends Controller
         }
     }
 
-    public function blogRSS(Request $request)
+    public function blogRSS()
+    {
+        $rss = new RSS();
+        $this->renderFeed($rss);
+    }
+
+    public function blogAtom()
+    {
+        $atom = new Atom();
+        $this->renderFeed($atom);
+    }
+
+    private function renderFeed($feed)
     {
         $options = [
-            'items' => 10
+            'items' => config('taskforce-blog.feeds.items')
         ];
 
-        $link = $request->url();
-        $title = config('taskforce-blog.feeds.title');
-        $description = config('taskforce-blog.feeds.description');
-
-        $output = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
-        <rss version=\"2.0\">
-            <channel>
-                <title>{$title}</title>
-                <description>{$description}</description>
-                <link>{$link}</link>";
+        $output = $feed->renderHeader();
 
         try {
             $posts = Post::published()->latest($options['items'])->get();
-            $data['posts'] = $posts;
+
+            /* Add the posts to the RSS feed */
+            foreach ($posts as $p) {
+                $output .= $feed->renderPost($p);
+            }
         } catch (Exception $e) {}
 
-        $output .= "</channel>
-        </rss>";
+        $output .= $feed->renderFooter();
 
         return response($output)
-            ->header('Content-Type', 'application/rss+xml');
+            ->header('Content-Type', $feed->mimeType());
     }
 
     /**

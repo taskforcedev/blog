@@ -14,6 +14,11 @@ class Post extends Model
 
     protected $fillable = [ 'title', 'author_id', 'body', 'status_id', 'image' ];
 
+    public function author()
+    {
+        // TODO: Get the user model.
+    }
+
     /**
      * Get posts with a status of 'draft'.
      * @param $query

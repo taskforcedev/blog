@@ -43,9 +43,19 @@ return [
      * Settings for RSS/Atom Feeds.
      */
     "feeds" => [
-        "rss" => true, // Whether to enable rss feed, true / false
-        "atom" => true, // Whether to enable atom feed, true / false
-        "title" => "", // Feed Title
-        "description" => "", // Feed Description
+        // The number of recent items to show in the feeds.
+        "items" => 10,
+
+        // Enable RSS? true / false
+        "rss" => true,
+
+        // Enable Atom? true / false
+        "atom" => true,
+
+        // Feed Title
+        "title" => "",
+
+        // Feed Description
+        "description" => "",
     ]
 ];

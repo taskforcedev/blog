@@ -20,12 +20,13 @@ Route::group(['namespace' => 'Taskforcedev\Blog\Http\Controllers'], function() {
     {
         case 'home':
             Route::get('/', ['as' => 'blog.index', 'uses' => 'BlogController@blog']);
+            Route::get('post/{$id}', ['as' => 'blog.post.view', 'uses' => 'BlogController@viewPost']);
             break;
         case 'blog':
             Route::get('blog', ['as' => 'blog.index', 'uses' => 'BlogController@blog']);
+            Route::get('blog/post/{$id}', ['as' => 'blog.post.view', 'uses' => 'BlogController@viewPost']);
             break;
         default:
-            Route::get('/', ['as' => 'blog.index', 'uses' => 'BlogController@blog']);
             break;
     }
 });
