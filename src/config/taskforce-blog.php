@@ -21,10 +21,10 @@ return [
     * documentation can be found in the README
     *
     * Valid Options :-
-    * "bootstrap-3", "bootstrap-4", "foundation-5", "none", null
+    * "bootstrap-3", "bootstrap-4", "foundation-6", "none", null
     */
 
-    "framework" => "bootstrap-4",
+    "framework" => "foundation-6",
 
     /*
      * Blog Post Layout
