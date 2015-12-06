@@ -38,4 +38,14 @@ return [
      */
 
     "post-layout" => "list",
+
+    /*
+     * Settings for RSS/Atom Feeds.
+     */
+    "feeds" => [
+        "rss" => true, // Whether to enable rss feed, true / false
+        "atom" => true, // Whether to enable atom feed, true / false
+        "title" => "", // Feed Title
+        "description" => "", // Feed Description
+    ]
 ];

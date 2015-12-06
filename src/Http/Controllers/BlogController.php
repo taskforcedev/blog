@@ -1,8 +1,8 @@
 <?php namespace Taskforcedev\Blog\Http\Controllers;
 
+use Illuminate\Http\Request;
 use \Exception;
 use Taskforcedev\Blog\Models\Post;
-use Taskforcedev\Blog\Models\Status;
 use Taskforcedev\Blog\Helpers\CSS\Bootstrap4;
 //use Taskforcedev\Blog\Helpers\CSS\Bootstrap3;
 use Taskforcedev\Blog\Helpers\Installation;
@@ -23,10 +23,9 @@ class BlogController extends Controller
     public function blog()
     {
         $data = $this->buildBlogData();
-        $status = Status::getStatusByName('published');
 
         try {
-            $posts = Post::where('status_id', $status->id)->get();
+            $posts = Post::published()->get();
             $data['posts'] = $posts;
             return view('taskforce-blog::index', $data);
         } catch (Exception $e) {
@@ -52,6 +51,31 @@ class BlogController extends Controller
         } catch (Exception $e) {
             return view('taskforce-blog::404', $data);
         }
+    }
+
+    public function blogRSS($options = ['items' => 10], Request $request)
+    {
+        $link = $request->url();
+        $title = config('taskforce-blog.feeds.title');
+        $description = config('taskforce-blog.feeds.description');
+
+        $output = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
+        <rss version=\"2.0\">
+            <channel>
+                <title>{$title}</title>
+                <description>{$description}</description>
+                <link>{$link}</link>";
+
+        try {
+            $posts = Post::published()->get();
+            $data['posts'] = $posts;
+        } catch (Exception $e) {}
+
+        $output .= "</channel>
+        </rss>";
+
+        return response($output)
+            ->header('Content-Type', 'application/rss+xml');
     }
 
     /**
