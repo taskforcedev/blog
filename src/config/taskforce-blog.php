@@ -22,7 +22,7 @@ return [
     * documentation can be found in the README
     *
     * Valid Options :-
-    * "bootstrap-3", "bootstrap-4", "foundation-5", "none", null
+    * "bootstrap-3", "bootstrap-4", "foundation-6", "none", null
     */
 
     "framework" => "bootstrap-4",
@@ -39,4 +39,24 @@ return [
      */
 
     "post-layout" => "list",
+
+    /*
+     * Settings for RSS/Atom Feeds.
+     */
+    "feeds" => [
+        // The number of recent items to show in the feeds.
+        "items" => 10,
+
+        // Enable RSS? true / false
+        "rss" => true,
+
+        // Enable Atom? true / false
+        "atom" => true,
+
+        // Feed Title
+        "title" => "",
+
+        // Feed Description
+        "description" => "",
+    ]
 ];

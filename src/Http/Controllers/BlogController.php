@@ -1,14 +1,12 @@
 <?php namespace Taskforcedev\Blog\Http\Controllers;
 
 use \Exception;
+use Illuminate\Http\Request;
 use Taskforcedev\Blog\Models\Post;
-use Taskforcedev\Blog\Models\Status;
-use Taskforcedev\Blog\Helpers\CSS\Bootstrap4;
-//use Taskforcedev\Blog\Helpers\CSS\Bootstrap3;
-//use Taskforcedev\Blog\Helpers\CSS\Foundation5;
-use Taskforcedev\LaravelSupport\Http\Controllers\Controller;
+use Taskforcedev\Blog\Helpers\Syndication\Atom;
+use Taskforcedev\Blog\Helpers\Syndication\RSS;
 
-class BlogController extends Controller
+class BlogController extends BaseController
 {
     /**
      * Blog index.
@@ -17,12 +15,11 @@ class BlogController extends Controller
     public function blog()
     {
         $data = $this->buildBlogData();
-        $status = Status::getStatusByName('published');
 
         try {
-            $posts = Post::where('status_id', $status->id)->get();
+            $posts = Post::published()->get();
             $data['posts'] = $posts;
-            return view('taskforce-blog::index', $data);
+            return view($this->getViewFolder(true) . '.index', $data);
         } catch (Exception $e) {
             $data['error'] = $e->getMessage(); // TODO: implement logic to only show this to admins.
             return view('taskforce-blog::error', $data);
@@ -41,11 +38,59 @@ class BlogController extends Controller
         $data = $this->buildBlogData();
 
         try {
-            $data['post'] = Post::where('id', $id);
-            return view('taskforce-blog::post', $data);
+            $data['post'] = Post::where('id', $id)->firstOrFail();
+            return view($this->getViewFolder() . '.post', $data);
         } catch (Exception $e) {
             return view('taskforce-blog::404', $data);
         }
+    }
+
+    /**
+     * Creates an RSS feed of the most recent n posts.
+     * @return mixed
+     */
+    public function blogRSS()
+    {
+        $rss = new RSS();
+        return $this->renderFeed($rss);
+    }
+
+    /**
+     * Creates an Atom feed of the most recent n posts.
+     * @return mixed
+     */
+    public function blogAtom()
+    {
+        $atom = new Atom();
+        return $this->renderFeed($atom);
+    }
+
+    /**
+     * Provides shared code between Atom and RSS rendering.
+     * @param object $feed The feed class to be used in output.
+     * @return mixed
+     */
+    private function renderFeed($feed)
+    {
+        $options = [
+            'items' => config('taskforce-blog.feeds.items')
+        ];
+
+        $output = $feed->renderHeader();
+
+        try {
+            $posts = Post::published()->latest($options['items'])->get();
+
+            /* Add the posts to the RSS feed */
+            foreach ($posts as $p) {
+                $output .= $feed->renderPost($p);
+            }
+        } catch (Exception $e) {}
+
+        $output .= $feed->renderFooter();
+
+        return response($output)
+            ->header('Content-Type', $feed->mimeType());
     }
 
     /**
@@ -55,63 +100,6 @@ class BlogController extends Controller
      */
     private function buildBlogData()
     {
-        $data                = $this->buildData();
-        $data['classes']     = $this->getCssClasses();
-
-        return $data;
-    }
-
-    /**
-     * Get the CSS classes to be used by the blog views.
-     *
-     * @param string $framework Framework to retrieve classes for.
-     *
-     * @return array
-     */
-    private function getCssClasses()
-    {
-        $framework = config('taskforce-blog.framework');
-        $postLayout = $this->getPostLayout();
-
-        switch ($framework)
-        {
-            case 'bootstrap-3':
-                return [
-                    'post'           => 'post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
-            case 'bootstrap-4':
-                return [
-                    'post'           => 'post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
-            case 'foundation-5':
-                return [
-                    'post'           => 'post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
-            default:
-                return [
-                    'post'           => 'blog-post',
-                    'title'          => 'post-title',
-                    'featured-image' => 'post-image',
-                ];
-        }
-    }
-
-    private function getPostLayout()
-    {
-        try {
-            $postLayout = config('taskforce-blog.post-layout');
-            if (isset($postLayout)) {
-                return $postLayout;
-            }
-        } catch (Exception $e) {
-            return 'list';
-        }
-        return 'list';
+        return $this->buildData();
     }
 }
