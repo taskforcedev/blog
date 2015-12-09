@@ -8,7 +8,8 @@ return [
     *
     * Valid Options :-
     *  "home": example.com - This will be your blog url.
-    *  "blog": example.com/blog - Blog will be located in the /blog route.
+    *  "blog": example.com/blog - Blog will start at /blog routes.
+    *  "news": example.com/news - Blog will start at /news routes.
     */
 
     "location" => "home",
